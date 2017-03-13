@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+*.zip
+test.json
+train.json
