@@ -52,8 +52,6 @@ names(sigma_train)
 #description
 
 
-
-
 #remove unwanted attributes
 sigmadff <- sigmadfm[-c(3,4,5,6,7,9,11,12,14,15)]
 names(sigmadff)
