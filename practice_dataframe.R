@@ -1,13 +1,36 @@
 id <- (1:5)
 age <- c(1,2,3,4,5)
 name <- c("jimmy","danny","joy","dam","cool")
-x <- data.frame(id,age,name)
+mydf <- data.frame(id,age,name)
 
-nrow(x)
-ncol(x)
-dim(x)
+nrow(mydf)
+ncol(mydf)
+dim(mydf)
 
 #give me the 2nd col name
-names(x)[2]
-head(x,2)
-summary(x)
+names(mydf)[2]
+head(mydf,2)
+summary(mydf)
+
+mydf
+mydf[3,3]
+class(mydf[1]) #data frame
+mydf[1]
+#same concept as list, when we use single bracket, it always return the existing data type
+
+
+class(mydf[[1]]) #vector
+mydf[[1]]
+class(mydf$id) #vector
+mydf$id
+
+
+#single bracket always return data frame
+class(mydf[2,]) #df
+mydf[2,]
+class(mydf[,2]) #vector
+mydf[,2]
+
+#subset
+class(mydf[c(1,3),c("age","name")])
+mydf[c(1,3),c("age","name")]
