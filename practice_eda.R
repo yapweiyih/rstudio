@@ -1,6 +1,4 @@
 library(jsonlite)
-library(ISLR)
-library(MASS)
 library(ggplot2)
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
 
@@ -18,6 +16,7 @@ rawinput[[1]][1:10]
 summary(unlist(rawinput[[1]]))
 table(unlist(rawinput[[1]]))
 boxplot(unlist(rawinput[[1]]))
+summarize(rawinput,bathrooms)
 ##ignore bathrooms>4 outlier, principle is to have at least 100 sampleslf;dcd11g .
 
 

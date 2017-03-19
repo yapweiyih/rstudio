@@ -6,6 +6,7 @@ x <- data.frame(id,age)
 mylist <- list(71,"word", c(1:5),x)
 names(mylist) <- c("favNum", "favWord","favVector", "favData")
 
+mylist
 class(mylist[[1]])
 class(mylist[3])
 class(mylist[["favData"]])
@@ -16,4 +17,20 @@ mylist["favData"]
 length(mylist)
 
 
+#extract row from list based on condition
+x
+x[(id>3 & age > 5),]
 
+#error
+class(x[[1,]])
+
+#vector
+class(x[[1]])
+class(x$id)
+class(x[,1])
+class(x[['id']])
+
+#df
+class(x['id'])
+class(x[1])
+x[1:4,]

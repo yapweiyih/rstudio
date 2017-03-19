@@ -1,10 +1,9 @@
-library(jsonlite)
-library(ISLR)
-library(MASS)
+
+packages <- c("jsonlite","dplyr","purrr")
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
 
 
-sigma <- fromJSON("train.json")
+sigma <- fromJSON("train_list.json")
 summary(sigma)
 class(sigma)
 length(sigma)

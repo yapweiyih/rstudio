@@ -34,3 +34,9 @@ mydf[,2]
 #subset
 class(mydf[c(1,3),c("age","name")])
 mydf[c(1,3),c("age","name")]
+
+
+#sorting
+sort(mydf[1])
+sort(mydf[[1]])
+sort(mydf$id)
