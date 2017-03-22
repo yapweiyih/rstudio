@@ -34,3 +34,8 @@ class(x[['id']])
 class(x['id'])
 class(x[1])
 x[1:4,]
+
+length(unique(id))
+length(unique(c(1,1,2,3)))
+sort(c(5,1,2,3))
+sort(unlist(list(1,4,2,4)))

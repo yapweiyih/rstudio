@@ -2,14 +2,7 @@ packages <- c("jsonlite","dplyr","purrr")
 
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
 
-myauto <- toJSON(Auto, pretty=TRUE)
-write_json(myauto,path = "test.txt")
-class(myauto)
-
-mydata <- fromJSON("test.txt")
-mydata
-class(mydata)
-
+#make sure to set working directory correct where the file reside
 sigma <- fromJSON("train.json")
 summary(sigma)
 
