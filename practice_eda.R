@@ -1,9 +1,23 @@
 library(jsonlite)
 library(ggplot2)
+setwd("C:/Users/Yap Wei Yih/Documents/rtest")
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
 rawinput <- fromJSON("train.json")
-rawinput <- as.data.frame(rawinput)
-  
+rawinputdf <- data.frame(rawinput)
+
+#get subset of data source
+names(rawinput)
+length(rawinput[[1]][1:10])
+lat <- unlist(rawinput[[8]][1:10])
+long = unlist(rawinput[[10]][1:10])
+a <- c(1,2,3,4)
+b <- c("a","b","c","d")
+testdf <- data.frame(names(lat),lat,long)
+str(testdf)
+dim(testdf)
+testdf
+
+
 class(rawinput) #list
 class(rawinput$bathrooms[1:5])
 rawinput$bathrooms[1:5]
@@ -50,6 +64,9 @@ max(unlist(rawinput[[4]]))
 min(unlist(rawinput[[4]]))
 # only 3 months worth of data 2014: apr, may, jun
 
+
+#lng/lat
+# There are 14 points which should be removed
 
 #description
 rawinput[[5]][[2]]
