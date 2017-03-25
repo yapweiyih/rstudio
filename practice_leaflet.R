@@ -1,5 +1,6 @@
 library(leaflet)
 
+# add single points
 m <- leaflet() %>% addTiles() %>%
   addMarkers(lng=-73.9539, lat=40.7108, popup = "Test location") %>%
   setView(lng=-73.9539, lat=40.7108, zoom=17)
@@ -12,22 +13,21 @@ m3 <- addMarkers(m2, lng=174.768, lat=-36.852, popup = "Test location")
 m3
 class(m3)
 
-#setview
 
 
 #get subset of data source
-names(rawinput)
-length(rawinput[[1]])
+#lat/lng must be vector
+names(rawinputtb)
+id <- as.numeric(names(rawinput[[1]]))
 lat <- unlist(rawinput[[8]])
 lng = unlist(rawinput[[10]])
-testdf <- data.frame(names(lat),lat,lng)
-names(testdf) <- c("listing","lat","lng")
-testdf
 
-# with input lat/lng and cluster option
+
+# with cluster of input lat/lng and cluster plugin option
+# label or popup must be character
 m1 <- leaflet() %>% addTiles() %>% 
-  addMarkers(lat=testdf$lat,lng=testdf$lng, clusterOptions = markerClusterOptions())
+  addMarkers(lat=rawinputtb$latitude,lng=rawinputtb$longitude,
+             popup = as.character(rawinputtb$listing_id),
+             clusterOptions = markerClusterOptions())
+
 m1
-
-
-

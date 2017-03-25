@@ -21,3 +21,13 @@ head(select(Auto, mpg:displacement))
 
 #filter by row
 head(filter(Auto, cylinders < 6 ))
+
+
+id <- (1:5)
+age <- c(1,2,3,4,5)
+name <- c("jimmy","danny","joy","dam","cool")
+mydf <- data.frame(id,age,name)
+mydf
+
+#filter by column value
+mydf %>% filter(age > 3)

@@ -35,6 +35,10 @@ mydf[,2]
 class(mydf[c(1,3),c("age","name")])
 mydf[c(1,3),c("age","name")]
 
+str(testdf)
+testdf[1:10,]
+testdf["id" == 4]
+
 
 #sorting
 sort(mydf[1])
