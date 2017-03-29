@@ -31,3 +31,7 @@ mydf
 
 #filter by column value
 mydf %>% filter(age > 3)
+
+
+rawinputtb %>% filter(rawinputtb$listing_id== 7040024) %>%
+  select(longitude, latitude)

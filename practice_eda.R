@@ -20,12 +20,9 @@ length(rawinputdf$bathrooms)
 class(rawinput) #list
 class(rawinput$bathrooms[1:5])
 rawinput$bathrooms[1:5]
-summary(rawinput)
-str(rawinput[1:5])
-names(rawinput)
-write_json(rawinput, writeb.json)
-View(rawinput)
-
+summary(rawinputdf)
+str(rawinputdf)
+names(rawinputdf)
 
 
 
@@ -43,6 +40,15 @@ rawinputtb <- rawinputtb %>% filter(latitude != 0)
 rawinputtb <- rawinputtb %>% filter(!listing_id %in% c(7035661,7174857,6981117,6881361,7202226,7229074,6836479,7114598,
   7221153,6957694,7146153,7143730,6946575,7075183,6974621,7059785,
   6834490,7169135,7209113, 6906214,7079426))
+
+m1 <- leaflet() %>% addTiles() %>% 
+  addMarkers(lat=rawinputtb$latitude,lng=rawinputtb$longitude,
+             popup = as.character(rawinputtb$listing_id),
+             clusterOptions = markerClusterOptions()) %>%
+  addCircles(lng=-73.9821, lat=40.7575, weight = 1,
+             radius = 30000)
+m1
+
 
 
 # bathrooms
@@ -68,11 +74,10 @@ rawinputtb <- rawinputtb %>% filter(bedrooms<=5)
 
 
 #building id
-length(rawinput[[3]])
-length(unique(rawinput[[3]]))
-class(unique(rawinput[3]))
-
+length(rawinputtb[[3]])
+length(unique(rawinputtb[[3]]))
 #building id need not be unique, multiple agents can post the same building
+
 
 #listing id
 length(rawinputtb[[9]])
@@ -81,42 +86,105 @@ length(unique(rawinputtb[[9]]))
 
 
 #created
-sort(unlist(rawinput[[4]]))
-max(unlist(rawinput[[4]]))
-min(unlist(rawinput[[4]]))
+sort(unlist(rawinputtb[[4]]))
+max(unlist(rawinputtb[[4]]))
+min(unlist(rawinputtb[[4]]))
 # only 3 months worth of data 2014: apr, may, jun
 
 
-
-]
-
-
 #description
-rawinput[[5]][[2]]
-rawinput[[5]][2]
-rawinput[[5]]
-nchar(rawinput[[5]][[2]]) #count number of character
+nchar(rawinputtb[[5]])
+rawinputtb$description_len <- unlist(map(rawinputtb[[5]],nchar))
+rawinputtb$description_len
+names(rawinputtb)
+temp <- rawinputtb %>% filter(description_len < 1500)
+summary(temp$description_len)
+boxplot(temp$description_len)
+rawinputtb$description_len
 
-lapply(rawinput[5],length)
-
-
-# unlist every variable except `photos` and `features` and convert to tibble
-vars <- setdiff(names(sigma), c("photos", "features"))
-data <- map_at(sigma, vars, unlist)
-datatbl <- map_at(sigma, vars, unlist) %>% tibble::as_tibble(.)
-View(datatbl) #view tibbles
-is_tibble(datatbl)
-sigmadf <- data.frame(datatbl)
-View(sigmadf)
-names(sigmadf)
 
 # Manage id
 # check if there are certain famous manager
 
 
-# List id (unique id)
-# check there is no duplicate
-
-
 # features
 # number of features 
+features_len <- c()
+class(rawinputtb$features)
+class(rawinputtb["features"])
+class(rawinputtb[["features"]])
+
+length(rawinputtb$features)
+
+for(i in 1:length(rawinputtb$features)){
+  features_len <- append(features_len,length(rawinputtb$features[[i]]))
+  
+}
+
+rawinputtb$features_count <- features_len
+boxplot(rawinputtb$features_count)
+str(rawinputtb$features_count)
+
+# photos
+# number of photo 
+str(rawinputtb$photos)
+
+length(rawinputtb$photos)
+length(rawinputtb$photos[[1]])
+   
+photos_count <- c()    
+for(i in 1:length(rawinputtb$photos)){
+  photos_count <- append(photos_count,length(rawinputtb$photos[[i]]))
+  
+}
+length(photos_count)
+rawinputtb$photos_count <- photos_count
+
+
+
+#interest_level
+#change to factor
+
+rawinputtb$interest_level <- factor(rawinputtb$interest_level, 
+                                    c("low","medium","high"))
+
+str(rawinputtb$interest_level)
+
+# interest by features count
+hist(rawinputtb %>% filter(interest_level == "high") 
+     %>% select(features_count) 
+     %>% unlist, main = "High interest level", breaks=seq(0,70,by=1))
+
+hist(rawinputtb %>% filter(interest_level == "medium") 
+     %>% select(features_count) 
+     %>% unlist, main = "Medium interest level", breaks=seq(0,70,by=1))
+
+hist(rawinputtb %>% filter(interest_level == "low") 
+     %>% select(features_count) 
+     %>% unlist, main = "Low interest level", breaks=seq(0,70,by=1))
+
+
+# interest by photo count
+hist(rawinputtb %>% filter(interest_level == "high") 
+     %>% select(photos_count) 
+     %>% unlist, main = "High interest level", breaks=seq(0,70,by=1))
+
+hist(rawinputtb %>% filter(interest_level == "medium") 
+     %>% select(photos_count) 
+     %>% unlist, main = "Medium interest level", breaks=seq(0,70,by=1))
+
+hist(rawinputtb %>% filter(interest_level == "low") 
+     %>% select(photos_count) 
+     %>% unlist, main = "Low interest level", breaks=seq(0,70,by=1))
+
+
+#################333
+# Testing ground
+library(data.table)
+temp <- data.table(listing_id = rep(unlist(rawinputtb$listing_id), 
+                                    lapply(rawinputtb$features,length)),
+                                  features=unlist(rawinputtb$features))
+temp
+
+
+

@@ -28,6 +28,20 @@ lng = unlist(rawinput[[10]])
 m1 <- leaflet() %>% addTiles() %>% 
   addMarkers(lat=rawinputtb$latitude,lng=rawinputtb$longitude,
              popup = as.character(rawinputtb$listing_id),
-             clusterOptions = markerClusterOptions())
-
+             clusterOptions = markerClusterOptions()) %>%
+  addCircles(lng=-73.9821, lat=40.7575, weight = 1,
+           radius = 100000)
 m1
+
+
+# add single points
+m <- leaflet() %>% addTiles() %>%
+  addMarkers(lng=-73.9539, lat=40.7108, popup = "Test location") %>%
+  setView(lng=-73.9539, lat=40.7575, zoom=5) %>%
+  addCircles(lng=-73.9821, lat=40.7575, weight = 1,
+             radius = 10000) %>%
+  addRectangles(
+    lng1=-72.9539, lat1=41.7108,#1: north-east, 2:south-west
+    lng2=-74.9539, lat2=39.7108,
+    fillColor = "transparent")
+m
