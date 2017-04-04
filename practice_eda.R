@@ -23,6 +23,15 @@ rawinput$bathrooms[1:5]
 summary(rawinputdf)
 str(rawinputdf)
 names(rawinputdf)
+summary(rawinputtb)
+class(rawinputtb$bathrooms)
+class(rawinputdf$bathrooms)
+class(rawinputtb$photos)
+class(rawinputdf$photos)
+rawinputdf %>% select(listing_id,bathrooms) %>% 
+  filter(listing_id<=7112314 & bathrooms < 1)
+rawinputdf[1:5,]
+rawinputtb[1:5,]
 
 
 
