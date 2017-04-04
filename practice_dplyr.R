@@ -1,7 +1,8 @@
 library(dplyr)
 data()
-mtcars
+mtcars[1:2,]
 
+class(mtcars)
 dim(mtcars)
 head(mtcars)
 summarise(mtcars,mean(disp),mean(mpg),mean(hp))
@@ -11,6 +12,9 @@ summarise_at(mtcars,c('disp','hp'),c('mean','min'))
 #piping
 #'avg' is column names
 mtcars %>% group_by(cyl) %>% summarise(avg=mean(mpg))
+mtcars %>% summarise(avg=mean(mpg))
+temp <- mtcars %>% group_by(cyl)
+temp
 
 #count
 count(mtcars,cyl)
