@@ -39,3 +39,12 @@ mydf %>% filter(age > 3)
 
 rawinputtb %>% filter(rawinputtb$listing_id== 7040024) %>%
   select(longitude, latitude)
+
+
+# apply function to every item in list and return vector
+cat_var <- names(train_data)[which(sapply(train_data, is.character))]
+num_var <- names(train_data)[which(sapply(train_data, is.numeric))]
+
+#correlation
+cor(train_data[,118:131])
+
