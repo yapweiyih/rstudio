@@ -48,3 +48,31 @@ num_var <- names(train_data)[which(sapply(train_data, is.numeric))]
 #correlation
 cor(train_data[,118:131])
 
+
+library(nycflights13)
+
+# cleaner using pipe
+is.nan(flights$dep_time)
+flights %>% filter(!is.na(dep_delay)) %>%
+  group_by(day,hour) %>%
+  summarise(delay = mean(dep_delay), n = n()) %>% #n() is built in count function
+  filter(delay > 30)
+
+# compared to not using pipe
+hourly_delay <- filter(
+  summarise(
+    group_by(
+      filter(
+        flights,
+        !is.na(dep_delay)
+      ),
+      date, hour
+    ),
+    delay = mean(dep_delay),
+    n = n()
+  ),
+  n >10
+)
+
+flights
+select(flights, starts_with("dep",))

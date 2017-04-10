@@ -58,3 +58,23 @@ ggplot(data = mpg) +
   facet_grid(. ~ class)
 
 
+# Geonm
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+
+# use multiple geom
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(colour = 'red') + 
+  geom_smooth(colour = 'orange')
+
+
+
+
+
+
+
+
+
