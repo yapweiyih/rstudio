@@ -72,9 +72,49 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 
 
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+
+
+?ggplot(data = mpg) +
+  geom_line(mapping = aes(x = displ, y = hwy), colour = 'blue') +
+  geom_line(mapping = aes(x = displ, y = cty), colour = 'green')
+
+#graph with legend, title, caption
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cyl, y = displ, colour = cyl)) +
+  labs(x = 'cylinder', y = 'displ', colour = 'Legend')
+
+ggplot(data = mpg) +
+  geom_bar(mapping = aes(x = cyl, colour = cyl)) +
+  labs(x = 'cylinder', y = 'counts', colour = 'cylinder',
+       title = 'Title', subtitle = 'subtitle',
+       caption = 'Accurate as of 14 apr')
+            
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = hwy))            
+        
+#EXERCISE
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  geom_smooth( mapping = aes(linetype = drv), se = FALSE, colour = 'blue')
+  
+# position = fill, dodge, identify, stack
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
 
 
 
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count()
 
 
+#coordinate system
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot()
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot() +
+  coord_flip()
 

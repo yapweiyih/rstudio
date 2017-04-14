@@ -2,6 +2,7 @@ library(jsonlite)
 library(dplyr)
 library(ggplot2)
 library(purrr)
+library(leaflet)
 packages <- c("jsonlite","dplyr","purrr")
 setwd("C:/Users/Yap Wei Yih/Documents/rtest")
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
@@ -20,14 +21,12 @@ length(rawinputdf$bathrooms)
 class(rawinput) #list
 class(rawinput$bathrooms[1:5])
 rawinput$bathrooms[1:5]
-summary(rawinputdf)
-str(rawinputdf)
-names(rawinputdf)
 summary(rawinputtb)
-class(rawinputtb$bathrooms)
-class(rawinputdf$bathrooms)
-class(rawinputtb$photos)
-class(rawinputdf$photos)
+str(rawinputtb)
+names(rawinputtb)
+
+
+
 rawinputdf %>% select(listing_id,bathrooms) %>% 
   filter(listing_id<=7112314 & bathrooms < 1)
 rawinputdf[1:5,]
@@ -159,6 +158,16 @@ rawinputtb$interest_level <- factor(rawinputtb$interest_level,
 
 str(rawinputtb$interest_level)
 
+
+
+#price
+library(ggvis)
+hist(rawinputtb$price)
+boxplot(rawinputtb$price)
+summary(rawinputtb$price)
+ggvis(rawinputtb$price)
+
+##################################################################
 # interest by features count
 hist(rawinputtb %>% filter(interest_level == "high") 
      %>% select(features_count) 
