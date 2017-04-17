@@ -3,37 +3,48 @@ library(dplyr)
 library(ggplot2)
 library(purrr)
 library(leaflet)
+
 packages <- c("jsonlite","dplyr","purrr")
 setwd("C:/Users/Yap Wei Yih/Documents/rtest")
+
 purrr::walk(packages, library, character.only = TRUE, warn.conflicts = FALSE)
 rawinput <- fromJSON("train.json")
+class(rawinput)
 
+
+####################################
 
 #first step is always to create a valid dataframe
 vars <- setdiff(names(rawinput), c("photos","features"))
 rawinputtb <- map_at(rawinput, vars, unlist) %>% tibble::as_tibble(.)
+# 
+# #convert back to data.frame
+# rawinputdf <- as.data.frame(rawinputtb)
+# length(rawinputdf$bathrooms)
+# 
+# #reference
+# class(rawinput) #list
+# class(rawinput$bathrooms[1:5])
+# rawinput$bathrooms[1:5]
+# summary(rawinputtb)
+# str(rawinputtb)
+# names(rawinputtb)
+# 
+# 
+# 
+# rawinputdf %>% select(listing_id,bathrooms) %>%
+#   filter(listing_id<=7112314 & bathrooms < 1)
+# rawinputdf[1:5,]
+# rawinputtb[1:5,]
+# 
+# 
+class <- data.table(interest_level=c("low", "medium", "high"), class=c(0,1,2))
+class
+#################################
 
-#convert back to data.frame
-rawinputdf <- as.data.frame(rawinputtb)
-length(rawinputdf$bathrooms)
-
-#reference
-class(rawinput) #list
-class(rawinput$bathrooms[1:5])
-rawinput$bathrooms[1:5]
-summary(rawinputtb)
-str(rawinputtb)
-names(rawinputtb)
 
 
-
-rawinputdf %>% select(listing_id,bathrooms) %>% 
-  filter(listing_id<=7112314 & bathrooms < 1)
-rawinputdf[1:5,]
-rawinputtb[1:5,]
-
-
-
+?
 #get subset of data source
 # remove error latitude
 #lng/lat
@@ -195,6 +206,39 @@ hist(rawinputtb %>% filter(interest_level == "low")
      %>% select(photos_count) 
      %>% unlist, main = "Low interest level", breaks=seq(0,70,by=1))
 
+
+names(rawinputtb)
+summary(rawinputtb)
+
+##############################
+# Tree model
+library(tree)
+tree.train <- tree(interest_level~price+features_count+photos_count+
+                    bathrooms+bedrooms+description_len
+                   , data = rawinputtb)
+summary(tree.train)
+plot(tree.train)
+text(tree.train)
+table(rawinputtb$interest_level) #total 49213
+
+# prepare test data
+rawtest <- fromJSON("test.json")
+summary(rawtest)
+vars <- setdiff(names(rawtest), c("photos","features"))
+rawtestttb <- map_at(rawtest, vars, unlist) %>% tibble::as_tibble(.)
+
+# create photo count
+photos_count <- c()    
+for(i in 1:length(rawtestttb$photos)){
+  photos_count <- append(photos_count,length(rawtestttb$photos[[i]]))
+  
+}
+length(photos_count)
+rawtestttb$photos_count <- photos_count
+
+#predict
+tree.pred <- predict(tree.train,data = rawtestttb, type = 'class')
+table(tree.pred)
 
 #################333
 # Testing ground
